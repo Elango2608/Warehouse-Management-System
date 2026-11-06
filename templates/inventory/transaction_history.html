@@ -1,0 +1,194 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Transaction History{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2>Stock Transaction History</h2>
+            <p class="text-muted">Search and track warehouse transactions.</p>
+        </div>
+
+        <a href="{% url 'product_list' %}" class="btn btn-secondary">
+            Back to Products
+        </a>
+    </div>
+
+    <!-- Search and Filter Form -->
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header bg-dark text-white">
+            <h5 class="mb-0">Search and Filter Transactions</h5>
+        </div>
+
+        <div class="card-body">
+
+            <form method="GET">
+
+                <!-- Date Validation Error -->
+                {% if date_error %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ date_error }}
+                    </div>
+                {% endif %}
+
+                <div class="row g-3">
+
+                    <!-- Product Search -->
+                    <div class="col-md-6 col-lg-3">
+                        <label class="form-label">Product Name or SKU</label>
+                        <input
+                            type="text"
+                            name="search"
+                            class="form-control"
+                            placeholder="Enter product name or SKU"
+                            value="{{ search_query }}"
+                        >
+                    </div>
+
+                    <!-- Transaction Type -->
+                    <div class="col-md-6 col-lg-3">
+                        <label class="form-label">Transaction Type</label>
+
+                        <select name="type" class="form-select">
+                            <option value="">All Transactions</option>
+
+                            <option value="stock_in"
+                                {% if transaction_type == 'stock_in' %}selected{% endif %}>
+                                Stock In
+                            </option>
+
+                            <option value="stock_out"
+                                {% if transaction_type == 'stock_out' %}selected{% endif %}>
+                                Stock Out
+                            </option>
+                        </select>
+                    </div>
+
+                    <!-- Start Date -->
+                    <div class="col-md-6 col-lg-2">
+                        <label class="form-label">Start Date</label>
+                        <input
+                            type="date"
+                            name="start_date"
+                            class="form-control"
+                            value="{{ start_date }}"
+                        >
+                    </div>
+
+                    <!-- End Date -->
+                    <div class="col-md-6 col-lg-2">
+                        <label class="form-label">End Date</label>
+                        <input
+                            type="date"
+                            name="end_date"
+                            class="form-control"
+                            value="{{ end_date }}"
+                        >
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="col-md-12 col-lg-2 d-flex align-items-end gap-2">
+
+                        <button type="submit" class="btn btn-primary">
+                            Search
+                        </button>
+
+                        <a href="{% url 'transaction_history' %}"
+                           class="btn btn-outline-secondary">
+                            Clear
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+    <!-- Transaction Table -->
+    <div class="card shadow-sm">
+
+        <div class="card-header bg-dark text-white">
+            <h5 class="mb-0">Transaction Records</h5>
+        </div>
+
+        <div class="card-body">
+
+            {% if transactions %}
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-hover align-middle">
+
+                    <thead class="table-dark">
+                        <tr>
+                            <th>#</th>
+                            <th>Date</th>
+                            <th>Product</th>
+                            <th>Transaction Type</th>
+                            <th>Quantity</th>
+                            <th>Reference Number</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for transaction in transactions %}
+
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+
+                            <td>
+                                {{ transaction.created_at|date:"d-m-Y H:i" }}
+                            </td>
+
+                            <td>{{ transaction.product.name }}</td>
+
+                            <td>
+                                {% if transaction.transaction_type == 'Stock In' %}
+                                    <span class="badge bg-success">Stock In</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Stock Out</span>
+                                {% endif %}
+                            </td>
+
+                            <td>{{ transaction.display_quantity }}</td>
+
+                            <td>{{ transaction.reference_number }}</td>
+
+                            <td>{{ transaction.notes|default:"-" }}</td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+                <div class="alert alert-info text-center">
+                    No transactions found matching your filters.
+                </div>
+
+            {% endif %}
+
+            <p class="text-muted mb-0">
+                Total matching transactions: {{ transactions|length }}
+            </p>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,149 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <div class="mb-4">
+        <h2>Warehouse Dashboard</h2>
+        <p class="text-muted">Overview of your warehouse operations.</p>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row g-3 mb-4">
+
+        <!-- Total Products -->
+        <div class="col-md-4 col-lg">
+            <div class="card shadow-sm border-primary h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">Total Products</h6>
+                    <h2 class="text-primary">{{ total_products }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Suppliers -->
+        <div class="col-md-4 col-lg">
+            <div class="card shadow-sm border-success h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">Total Suppliers</h6>
+                    <h2 class="text-success">{{ total_suppliers }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Categories -->
+        <div class="col-md-4 col-lg">
+            <div class="card shadow-sm border-info h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">Total Categories</h6>
+                    <h2 class="text-info">{{ total_categories }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Stock Units -->
+        <div class="col-md-6 col-lg">
+            <div class="card shadow-sm border-warning h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">Total Stock Units</h6>
+                    <h2 class="text-warning">{{ total_stock_units }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Low Stock Products -->
+        <div class="col-md-6 col-lg">
+            <div class="card shadow-sm border-danger h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">Low Stock Products</h6>
+                    <h2 class="text-danger">{{ low_stock_products }}</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Recent Transactions -->
+    <div class="card shadow-sm">
+
+        <div class="card-header bg-dark text-white">
+            <h5 class="mb-0">Recent Transactions</h5>
+        </div>
+
+        <div class="card-body">
+
+            {% if recent_transactions %}
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-hover align-middle">
+
+                    <thead class="table-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Date</th>
+                            <th>Product</th>
+                            <th>Transaction Type</th>
+                            <th>Quantity</th>
+                            <th>Reference Number</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for transaction in recent_transactions %}
+
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+
+                            <td>
+                                {{ transaction.created_at|date:"d-m-Y H:i" }}
+                            </td>
+
+                            <td>{{ transaction.product.name }}</td>
+
+                            <td>
+                                {% if transaction.transaction_type == 'Stock In' %}
+                                    <span class="badge bg-success">Stock In</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Stock Out</span>
+                                {% endif %}
+                            </td>
+
+                            <td>{{ transaction.display_quantity }}</td>
+
+                            <td>{{ transaction.reference_number }}</td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+                <div class="alert alert-info mb-0">
+                    No transactions available yet.
+                </div>
+
+            {% endif %}
+
+            <div class="text-end mt-3">
+                <a href="{% url 'transaction_history' %}"
+                   class="btn btn-outline-primary">
+                    View All Transactions
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

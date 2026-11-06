@@ -1,0 +1,112 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+
+        <a class="navbar-brand fw-bold {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}"
+           href="{% url 'dashboard' %}">
+            Warehouse Management System
+        </a>
+
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#mainNavbar"
+            aria-controls="mainNavbar"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+
+            <span class="navbar-toggler-icon"></span>
+
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNavbar">
+
+            {% if user.is_authenticated %}
+
+            <ul class="navbar-nav ms-auto">
+
+                <!-- Dashboard -->
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active fw-bold{% endif %}"
+                       href="{% url 'dashboard' %}"
+                       {% if request.resolver_match.url_name == 'dashboard' %}aria-current="page"{% endif %}>
+                        Dashboard
+                    </a>
+                </li>
+
+                <!-- Suppliers -->
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name in 'supplier_list supplier_create supplier_update supplier_delete' %}active fw-bold{% endif %}"
+                       href="{% url 'supplier_list' %}"
+                       {% if request.resolver_match.url_name in 'supplier_list supplier_create supplier_update supplier_delete' %}aria-current="page"{% endif %}>
+                        Suppliers
+                    </a>
+                </li>
+
+                <!-- Categories -->
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name in 'category_list category_create category_update category_delete' %}active fw-bold{% endif %}"
+                       href="{% url 'category_list' %}"
+                       {% if request.resolver_match.url_name in 'category_list category_create category_update category_delete' %}aria-current="page"{% endif %}>
+                        Categories
+                    </a>
+                </li>
+
+                <!-- Products -->
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name in 'product_list product_create product_update product_delete' %}active fw-bold{% endif %}"
+                       href="{% url 'product_list' %}"
+                       {% if request.resolver_match.url_name in 'product_list product_create product_update product_delete' %}aria-current="page"{% endif %}>
+                        Products
+                    </a>
+                </li>
+
+                <!-- Stock In -->
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'stock_in' %}active fw-bold{% endif %}"
+                       href="{% url 'stock_in' %}"
+                       {% if request.resolver_match.url_name == 'stock_in' %}aria-current="page"{% endif %}>
+                        Stock In
+                    </a>
+                </li>
+
+                <!-- Stock Out -->
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'stock_out' %}active fw-bold{% endif %}"
+                       href="{% url 'stock_out' %}"
+                       {% if request.resolver_match.url_name == 'stock_out' %}aria-current="page"{% endif %}>
+                        Stock Out
+                    </a>
+                </li>
+
+                <!-- Transaction History -->
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'transaction_history' %}active fw-bold{% endif %}"
+                       href="{% url 'transaction_history' %}"
+                       {% if request.resolver_match.url_name == 'transaction_history' %}aria-current="page"{% endif %}>
+                        Transactions
+                    </a>
+                </li>
+
+                <!-- Username -->
+                <li class="nav-item">
+                    <span class="nav-link text-info">
+                        Welcome, {{ user.username }}
+                    </span>
+                </li>
+
+                <!-- Logout -->
+                <li class="nav-item">
+                    <a class="nav-link text-warning"
+                       href="{% url 'logout' %}">
+                        Logout
+                    </a>
+                </li>
+
+            </ul>
+
+            {% endif %}
+
+        </div>
+    </div>
+</nav>
