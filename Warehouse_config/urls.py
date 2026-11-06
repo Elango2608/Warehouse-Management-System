@@ -4,6 +4,7 @@ from accounts import views
 
 urlpatterns = [
     path('', views.home_view, name='home'),
+    path('api/', include('inventory.api_urls')),
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
     path('suppliers/', include('suppliers.urls')),
