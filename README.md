@@ -169,3 +169,42 @@ Install the following software:
 - Git
 
 ### Step 1
+
+## REST API Integration
+
+The Warehouse Management System includes REST API functionality developed using Django REST Framework (DRF).
+
+These APIs allow applications to communicate with the warehouse system and perform product management operations using HTTP requests and JSON data.
+
+### Product API Endpoints
+
+| HTTP Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/products/` | Retrieve all products |
+| GET | `/api/products/<id>/` | Retrieve a specific product |
+| POST | `/api/products/` | Create a new product |
+| PUT | `/api/products/<id>/` | Update product details |
+| PATCH | `/api/products/<id>/` | Partially update product details |
+| DELETE | `/api/products/<id>/` | Delete a product |
+
+### API Testing
+
+The Product REST APIs have been tested using Postman.
+
+Tested operations:
+- Retrieve all products
+- Retrieve a single product
+- Create a product
+- Update product details
+- Partially update product details
+- Delete a product
+
+### API Response Formats
+
+The API uses JSON (JavaScript Object Notation) for sending and receiving data.
+
+### API Base URL
+
+For local development:
+
+`http://127.0.0.1:8000/api/`
