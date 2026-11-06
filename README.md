@@ -208,3 +208,34 @@ The API uses JSON (JavaScript Object Notation) for sending and receiving data.
 For local development:
 
 `http://127.0.0.1:8000/api/`
+
+## API Testing Screenshots
+
+### 1. Get All Products
+![Get All Products](screenshots/api_testing/15_api_get_all.png)
+
+### 2. Get Single Product
+![Get Single Product](screenshots/api_testing/17_api_get_one.png)
+
+### 3. Create Product
+![Create Product](screenshots/api_testing/18_api_post_one.png)
+
+### 4. Update Product
+![Update Product](screenshots/api_testing/019_api_put_one.png)
+
+### 5. Partial Update Product
+![Patch Product](screenshots/api_testing/20_api_patch_one.png)
+
+### 6. Delete Product
+![Delete Product](screenshots/api_testing/21_api_delete_one.png)
+
+## Postman API Collection
+
+The Postman collection contains API requests for testing
+the Warehouse Management System.
+
+**Collection file:**
+
+`postman/REST API basics- CRUD, test & variable.postman_collection.json`
+
+The collection can be imported into Postman to execute and test API endpoints.
